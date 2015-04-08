@@ -152,6 +152,15 @@ footer "2013", :pages => :first, :align => :right
 
 You can insert `page_break` or newline inside a paragraph with `br`.
 
+### Image
+
+You can insert `image` 
+```ruby
+image link_image, :width => 10, :height => 10
+```
+Default width is 5 px
+Dafault height is 5 px
+
 ## Contributing
 
 1. Fork it

@@ -1,10 +1,10 @@
 module Docxtor
   module Document
     class Builder
-      attr_accessor :content, :running_elements
+      attr_accessor :content, :reference
 
-      def initialize(running_elements, &block)
-        @running_elements = running_elements
+      def initialize(reference, &block)
+        @reference = reference
         @content = render(&block)
       end
 
@@ -26,7 +26,7 @@ module Docxtor
         "xmlns:w" => "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
         "xmlns:wne" => "http://schemas.microsoft.com/office/word/2006/wordml" do
           xml.w :body do
-            xml << Document::Root.new(&block).render(::Builder::XmlMarkup.new)
+            xml << Document::Root.new(reference, &block).render(::Builder::XmlMarkup.new)
 
             render_running_elements xml
           end
@@ -37,7 +37,7 @@ module Docxtor
 
       def render_running_elements xml
         xml.w :sectPr do |xml|
-          running_elements.each do |re|
+          reference.elements.each do |re|
             xml.w re.reference_name.to_sym, "r:id" => re.reference_id, "w:type" => "#{re.pages}"
           end
         end

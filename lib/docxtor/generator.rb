@@ -6,11 +6,12 @@ module Docxtor
         parts = template_parser.parts
 
         running_elements = RunningElementsBuilder.new(&block).elements
-        parts += running_elements
+        reference = ReferenceBuilder.new(running_elements)
+        document = Document::Builder.new(reference, &block)
 
-        parts << ReferenceBuilder.new(running_elements)
-        parts << Document::Builder.new(running_elements, &block)
-
+        parts += document.reference.elements
+        parts << document.reference
+        parts << document
         Package::Builder.new(parts)
       end
     end
