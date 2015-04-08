@@ -20,6 +20,7 @@ module Docxtor
     autoload :Paragraph, 'docxtor/document/paragraph'
     autoload :Heading, 'docxtor/document/heading'
     autoload :PageBreak, 'docxtor/document/page_break'
+    autoload :Image, 'docxtor/document/image'
   end
 
   module Package

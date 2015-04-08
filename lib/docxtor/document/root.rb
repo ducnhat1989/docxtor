@@ -4,7 +4,8 @@ module Docxtor
       map({ :table_of_contents  => Document::TableOfContents,
             :p                  => Document::Paragraph,
             :h                  => Document::Heading,
-            :page_break         => Document::PageBreak
+            :page_break         => Document::PageBreak,
+            :image              => Document::Image
           })
 
       def render(xml)

@@ -1,12 +1,16 @@
 module Docxtor
   module Document
     class Element
-      attr_accessor :elements, :xml
+      attr_accessor :elements, :xml, :reference
 
       def self.map(mappings)
         mappings.each do |name, klass|
           define_method(name) do |*args, &block|
-            elements << klass.new(*args, &block)
+            if name == :image
+              image_element = RunningElement.new(name, 1, *args)
+              @reference.add_element image_element
+            end
+            elements << klass.new(@reference, *args, &block)
           end
         end
       end
@@ -15,9 +19,9 @@ module Docxtor
         super unless [:header, :footer].include? name
       end
 
-      def initialize(*args, &block)
+      def initialize(reference, *args, &block)
         @elements = []
-
+        @reference = reference
         # FIXME You have to call #create_params in this hook
         after_initialize(*args)
 

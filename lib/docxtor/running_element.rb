@@ -15,7 +15,11 @@ module Docxtor
     end
 
     def name
-      "#{type}#{@num}.xml"
+      if @type == :image
+        "media/#{@contents.split("/").last}"
+      else
+        "#{type}#{@num}.xml"
+      end
     end
 
     def filename
@@ -27,6 +31,9 @@ module Docxtor
     end
 
     def content
+      if @type == :image
+        return File.read(@contents)
+      end
       xml = ::Builder::XmlMarkup.new
 
       if @type == :header
