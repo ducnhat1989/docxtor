@@ -154,12 +154,16 @@ You can insert `page_break` or newline inside a paragraph with `br`.
 
 ### Image
 
-You can insert `image` 
+You can insert `image`
 ```ruby
-image link_image, :width => 10, :height => 10
+image link_image, :width => 10, :height => 10, :indent => 0
 ```
 Default width is 5 px
-Dafault height is 5 px
+
+Default height is 5 px
+
+Default indent left is 0
+
 
 ## Contributing
 
