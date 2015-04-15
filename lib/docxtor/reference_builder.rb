@@ -6,12 +6,13 @@ module Docxtor
       @elements = elements
       @elements.each_with_index { |el, i| el.reference_id = "rId#{i+1}" }
     end
-    
+
     def add_element running_element
       running_element.reference_id = "rId#{elements.length+1}"
+      running_element.num = elements.length+1
       @elements << running_element
     end
-    
+
     def last_element
       @elements.last
     end

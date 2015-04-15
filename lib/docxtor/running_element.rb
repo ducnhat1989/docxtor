@@ -1,6 +1,6 @@
 module Docxtor
   class RunningElement
-    attr_accessor :pages, :type, :reference_id
+    attr_accessor :pages, :type, :reference_id, :num
 
     def initialize type, num, contents, options = {}
       @type = type

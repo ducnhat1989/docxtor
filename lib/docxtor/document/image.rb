@@ -7,7 +7,7 @@ module Docxtor
 
       def after_initialize(link, *args)
         @rId = @reference.last_element.reference_id
-        @num = @rId
+        @num = @reference.last_element.num
         style = args.shift || {}
         @width = (style[:width] || AUTO_WIDTH) * 9144000 / 96
         @height = (style[:height] || AUTO_HEIGHT) * 9144000 / 96
@@ -20,6 +20,9 @@ module Docxtor
             xml.w :ind, "w:left" => @indent
           end
           xml.w :r do
+            xml.w :rPr do
+              xml.w :noProof
+            end
             drawing xml
           end
         end
@@ -38,13 +41,19 @@ module Docxtor
               xml.a :graphicData, "uri" => "http://schemas.openxmlformats.org/drawingml/2006/picture" do
                 xml.pic :pic, "xmlns:pic" => "http://schemas.openxmlformats.org/drawingml/2006/picture" do
                   xml.pic :nvPicPr do
-                    xml.pic :cNvPr, "id" => @num, "name" => "Picture #{@num}"
+                    xml.pic :cNvPr, "id" => "0", "name" => "Picture #{@num}", "descr" => ""
                     xml.pic :cNvPicPr do
                       xml.a :picLocks, "noChangeAspect" => "1", "noChangeArrowheads" => "1"
                     end
                   end
                   xml.pic :blipFill do
-                    xml.a :blip, "r:embed" => "#{@rId}"
+                    xml.a :blip, "r:embed" => "#{@rId}" do
+                      xml.a :extLst do
+                        xml.a :ext, "uri" => "{28A0092B-C50C-407E-A947-70E740481C1C}" do
+                          xml.a14 :useLocalDpi, "xmlns:a14" => "http://schemas.microsoft.com/office/drawing/2010/main", "val" => "0"
+                        end
+                      end
+                    end
                     xml.a :srcRect
                     xml.a :stretch do
                       xml.a :fillRect
